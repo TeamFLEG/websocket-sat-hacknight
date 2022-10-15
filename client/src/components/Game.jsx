@@ -23,7 +23,7 @@ export const Game = () => {
 
       setTimeout(() => {
         setCurrent(null);
-      }, 5000);
+      }, 1000);
     }
   };
   useEffect(() => {
