@@ -1,5 +1,7 @@
-import Home from "./Home"
-
+import {Home} from "./Home"
+import { Game } from "./Game"
 export const Studio=()=>{
-    return <Home/>
+    return <div>
+    <Game/>
+    </div>
 }
