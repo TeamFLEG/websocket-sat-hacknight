@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 export const SocketContext=createContext();
 
-export default SocketProvider=({children})=>{
+export default function SocketProvider({children}){
 
     const [socket,setSocket]=useState(null)
 

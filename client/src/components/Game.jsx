@@ -1,5 +1,22 @@
+import { useEffect, useState } from "react"
 export const Game=()=>{
-    
+
+    const [show,setShow]=useState(false)
+
+    const handlePress=(e)=>{
+        console.log(e)
+        setShow(true)
+
+    }
+    useEffect(()=>{
+
+        window.addEventListener("onkeypress",handlePress);
+
+        return ()=>window.removeEventListener("keypress",handlePress)
+        
+    },[])
+
+
     return <div className="flex bg-primary w-full min-h-screen">
         <div className="flex-[0.20] flex flex-col p-3 bg-black drop-shadow border-slate-700 border-r">
           
