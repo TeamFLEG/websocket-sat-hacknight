@@ -16,9 +16,11 @@ export const Game = () => {
       socket.emit("guess", { user: game.username, letter: e.key });
 
       socket.on("discover", (response) => {
-        console.log(response);
         setGame({ ...game, word: response });
-        console.log(game);
+      });
+
+      socket.on("winner", (res) => {
+        console.log(res + " won the game");
       });
 
       setTimeout(() => {
@@ -56,6 +58,8 @@ export const Game = () => {
 
 const LetterBox = ({ letter }) => {
   return (
-    <div className="w-[60px] h-[60px] bg-tertiary rounded-md flex justify-center items-center text-2xl font-[500] capitalize">{letter}</div>
+    <div className="w-[60px] h-[60px] bg-tertiary rounded-md flex justify-center items-center text-2xl font-[500] capitalize">
+      {letter}
+    </div>
   );
 };

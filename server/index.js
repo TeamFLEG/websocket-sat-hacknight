@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
           discoveredpos[i] = data.letter;
         }
       }
-      console.log(discoveredpos);
+      //console.log(discoveredpos);
       io.emit("discover",discoveredpos);
       if(discoveredpos.includes(' ')==false){
         io.emit("winner",data.user);
@@ -51,6 +51,7 @@ io.on('connection', (socket) => {
         randWord = randWords();
         discoveredpos = [];
         for(let i=0;i<randWord.length;i++)discoveredpos.push(' ');
+        io.emit("discover",discoveredpos);
       }
     })
   
