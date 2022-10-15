@@ -6,7 +6,7 @@ const randWords = require('random-words');
 let randWord = randWords();
 let discoveredpos = [];
 for(let i=0;i<randWord.length;i++)
-  discoveredpos.push(0);
+  discoveredpos.push(' ');
 
 
 //New imports
@@ -24,25 +24,34 @@ const io = require('socket.io')(http, {
 //Add this before the app.get() block
 io.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
+    console.log(randWord);
   
     //Listens and logs the message to the console
     socket.on('startGame', (data,callback) => { 
       // data=user
       console.log(data + " connected");
-      callback(randWord.length);
+      callback(discoveredpos);
     });
 
     //when a guess letter is recieved , send back the guessed letter and its positions.
     //if no match, will return empty list
     socket.on('guess',data => {
+      //console.log(data);
       let temp =[]
       for(let i=0;i<randWord.length;i++){
-        if(randWord[i]==data.letter && discoveredpos[i]==0){
-          discoveredpos = 1;
-          temp.push([data.letter,i]);
+        if(randWord[i]==data.letter.toLowerCase() && discoveredpos[i]===' '){
+          discoveredpos[i] = data.letter;
         }
       }
-      io.emit("discover",temp);
+      console.log(discoveredpos);
+      io.emit("discover",discoveredpos);
+      if(discoveredpos.includes(' ')==false){
+        io.emit("winner",data.user);
+        console.log(data.user + " wins")
+        randWord = randWords();
+        discoveredpos = [];
+        for(let i=0;i<randWord.length;i++)discoveredpos.push(' ');
+      }
     })
   
     socket.on('disconnect', () => {

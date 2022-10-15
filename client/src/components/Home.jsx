@@ -1,20 +1,21 @@
 import { io } from "socket.io-client";
 import { useState } from "react";
 import useSocket from "../hooks/useSocket";
+import useGame from "../hooks/useGame";
 import { Button } from "@chakra-ui/react";
 
 export const Home = () => {
   const { socket, setSocket } = useSocket();
+  const { game, setGame } = useGame();
   const [username, setUsername] = useState("");
-  const [currentWordLength, setCurrentWordLength] = useState(0);
 
   const handleSendUsername = (e) => {
     e.preventDefault();
     try {
       const socketIO = io("http://localhost:4000");
       socketIO.emit("startGame", username, (response) => {
-        setSocket({ id: socketIO.id });
-        setCurrentWordLength(response);
+        setSocket(socketIO);
+        setGame({ username, word: response });
       });
     } catch (e) {
       console.log(e);

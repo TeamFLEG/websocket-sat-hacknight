@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
+import useGame from "../hooks/useGame";
+import useSocket from "../hooks/useSocket";
 
 export const Game = () => {
   const [current, setCurrent] = useState(null);
+  const { game, setGame } = useGame();
+  const { socket } = useSocket();
 
   const handlePress = (e) => {
     console.log(e);
 
     if (e.key.toLowerCase() !== e.key.toUpperCase() && !current) {
       setCurrent(e.key);
+
+      socket.emit("guess", { user: game.username, letter: e.key });
+
+      socket.on("discover", (response) => {
+        console.log(response);
+        setGame({ ...game, word: response });
+        console.log(game);
+      });
 
       setTimeout(() => {
         setCurrent(null);
@@ -16,7 +28,6 @@ export const Game = () => {
   };
   useEffect(() => {
     window.addEventListener("keypress", handlePress);
-
     return () => window.removeEventListener("keypress", handlePress);
   });
 
@@ -28,14 +39,9 @@ export const Game = () => {
         <h1 className="text-2xl text-secondary pb-20">Guess the Word</h1>
 
         <div className="flex space-x-3 cursor-pointer">
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
-          <LetterBox />
+          {game?.word.map((letter, index) => (
+            <LetterBox letter={letter} key={index} />
+          ))}
         </div>
       </div>
 
@@ -50,6 +56,6 @@ export const Game = () => {
 
 const LetterBox = ({ letter }) => {
   return (
-    <div className="w-[60px] h-[60px] bg-tertiary rounded-md">{letter}</div>
+    <div className="w-[60px] h-[60px] bg-tertiary rounded-md flex justify-center items-center text-2xl font-[500] capitalize">{letter}</div>
   );
 };
