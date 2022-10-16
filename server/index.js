@@ -10,6 +10,8 @@ let randWord = randWords();
 let discoveredpos = [];
 for(let i=0;i<randWord.length;i++)
   discoveredpos.push(' ');
+//array of same length as randWord filled with ' '
+let tempvar=[];for(let i=0;i<randWord.length;i++)tempvar.push(' '); 
 
 
 //New imports
@@ -33,7 +35,6 @@ io.on('connection', (socket) => {
     socket.on('startGame', (data,callback) => { 
       // data=user
       console.log(data + " connected");
-      let tempvar=[];for(let i=0;i<randWord.length;i++)tempvar.push(' ');
       callback(tempvar);
     });
 
@@ -53,6 +54,7 @@ io.on('connection', (socket) => {
         randWord = randWords();
         discoveredpos = [];
         for(let i=0;i<randWord.length;i++)discoveredpos.push(' ');
+        tempvar=[];for(let i=0;i<randWord.length;i++)tempvar.push(' ');
         io.emit("discover",discoveredpos);
       }
     })
