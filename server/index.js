@@ -30,11 +30,10 @@ io.on('connection', (socket) => {
     socket.on('startGame', (data,callback) => { 
       // data=user
       console.log(data + " connected");
-      callback(discoveredpos);
+      let tempvar=new Array(randWord.length).fill(' ');
+      callback(tempvar);
     });
 
-    //when a guess letter is recieved , send back the guessed letter and its positions.
-    //if no match, will return empty list
     socket.on('guess',data => {
       //console.log(data);
       let temp =[]
@@ -47,7 +46,7 @@ io.on('connection', (socket) => {
       io.emit("discover",discoveredpos);
       if(discoveredpos.includes(' ')==false){
         io.emit("winner",data.user);
-        console.log(data.user + " wins")
+        console.log(data.user + " wins");
         randWord = randWords();
         discoveredpos = [];
         for(let i=0;i<randWord.length;i++)discoveredpos.push(' ');
@@ -57,6 +56,7 @@ io.on('connection', (socket) => {
   
     socket.on('disconnect', () => {
       console.log('🔥: A user disconnected');
+      socket.disconnect();
     });
   });
 
