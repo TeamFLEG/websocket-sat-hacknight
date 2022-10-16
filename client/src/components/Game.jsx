@@ -69,9 +69,6 @@ export const Game = () => {
 
   return (
     <div className="flex bg-primary w-full min-h-screen">
-      {/* <div className="flex-[0.20] flex flex-col p-3 bg-black drop-shadow border-slate-700 border-r">
-        <h1 className="text-2xl text-secondary pb-20">Active Users</h1>
-      </div> */}
 
       <div className="flex flex-col justify-center items-center w-full  p-5">
         <h1 className="text-5xl text-secondary pb-16">Guess the Word</h1>

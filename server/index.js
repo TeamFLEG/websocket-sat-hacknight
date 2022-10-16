@@ -1,3 +1,6 @@
+// server coded by saad-nou
+// front-end and client by sharun and vishnu
+
 const express = require('express');
 const app = express();
 const PORT = 4000;
