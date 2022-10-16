@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
     socket.on('startGame', (data,callback) => { 
       // data=user
       console.log(data + " connected");
-      let tempvar=new Array(randWord.length).fill(' ');
+      let tempvar=[];for(let i=0;i<randWord.length;i++)tempvar.push(' ');
       callback(tempvar);
     });
 
